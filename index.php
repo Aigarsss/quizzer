@@ -18,7 +18,29 @@ $msgClass = "";
     
     if(!empty($name) && !empty($email) && !empty($message)){
         if(filter_var($email,FILTER_VALIDATE_EMAIL)) {
-            echo "email looks great!";
+            
+            $toEmail = "aigars.uplejs@gmail.com";
+            $subject = "Concact form from ". $name;
+            $text = "<h3>Contact request</h3>
+            <h4>Name</h4>
+            <p>". $name. "</4>
+            <h4>Email</h2>
+            <p>". $email. "</4>
+            <h4>Message</h4>
+            <p>". $message. "</p>
+            ";
+            $headers = "MIME-Version: 1.0\r\n";
+            $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+            $headers .= "From ". $name. "<" . $email . ">";
+
+            if(mail($toEmail, $subject, $text, $headers)){
+                $msg="Email was sent sucessfully";
+                $msgClass = "alert alert-success";
+            } else {
+                $msg="Email was not sent";
+                $msgClass = "alert alert-danger";
+            }
+  
         } else {
             $msg="Please fill in a valid email";
             $msgClass = "alert alert-danger";
@@ -48,14 +70,14 @@ $msgClass = "";
     <body>
     <div class="bs-component">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="index.php">Navbar</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
             </div>
