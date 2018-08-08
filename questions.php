@@ -21,14 +21,18 @@
         </header>
         <main>
             <div class="container">
-            <h2>Test your skills</h2>
-            <p>This is a multiple choice quizz</p>
-                <ul>
-                    <li><strong>Number of quetions </strong>5</li>
-                    <li><strong>Type </strong>Multiple choice</li>
-                    <li><strong>Estimated time </strong>5 minutes</li>
-                </ul>
-                <a href="questions.php?n=1" class="start">Start quizz</a>
+                <div class="current">Question 1 of 5</div>
+                <p class="question">This is the first question</p>
+                <form action="process.php" methiod="POST">
+                    <ul class="choices">
+                        <li><input type="radio" name="choice" value="1">This is the 1 answer</li>
+                        <li><input type="radio" name="choice" value="1">This is the 2 answer</li>
+                        <li><input type="radio" name="choice" value="1">This is the 3 answer</li>
+                        <li><input type="radio" name="choice" value="1">This is the 4 answer</li>
+                    </ul>
+                    <input type="submit" value="submit">
+                </form>
+
             </div>
         </main>
         <footer>
