@@ -1,11 +1,16 @@
 <?php include('database.php'); ?>
 <?php 
+/*
 //total number of questions
 $query = "SELECT * FROM `questions`";
 //get results
 $results = $mysqli->query($query) or die($mysqli->error.__LINE__);
 //get total
 $total = $results->num_rows;
+*/
+######################### PDO #############################
+$total = $pdo->query("SELECT count(*) FROM questions")->fetchColumn();
+
 ?>
 
 <!DOCTYPE html>	

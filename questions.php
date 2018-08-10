@@ -1,6 +1,8 @@
-<?php include('database.php'); ?>
-<?php session_start(); ?>
 <?php 
+include('database.php'); 
+session_start(); 
+
+/*
 //all of queries. should actually go into a model?
 
 //getting the question number
@@ -18,11 +20,27 @@ $query = "SELECT * FROM `choices` WHERE question_number = $number";
 //get result
 $choices = $mysqli->query($query) or die($mysqli->error.__LINE__);
 
-    //get total
-    $query = "SELECT * FROM `questions`";
-    // get the count
-    $results = $mysqli->query($query) or die($mysqli->error.__LINE__);
-    $total = $results->num_rows;
+//get total
+$query = "SELECT * FROM `questions`";
+// get the count
+$results = $mysqli->query($query) or die($mysqli->error.__LINE__);
+$total = $results->num_rows;
+*/
+###################################### PDO ##########################################
+
+$number = $_GET['n'];
+// getting the question from DB
+$stmt = $pdo->prepare("SELECT * FROM questions WHERE question_number=:number");
+$stmt->execute(['number' => $number]);
+$question = $stmt->fetch();
+
+// getting the choices
+$stmt = $pdo->prepare("SELECT * FROM choices WHERE question_number =:number");
+$stmt->execute(['number' => $number]);
+$choices = $stmt->fetchAll();
+
+// getting the total
+$total = $pdo->query("SELECT count(*) FROM questions")->fetchColumn();
 
 ?>
 
@@ -53,9 +71,9 @@ $choices = $mysqli->query($query) or die($mysqli->error.__LINE__);
                 <p class="question"><?php echo $question['text']; ?></p>
                 <form action="process.php" method="POST">
                     <ul class="choices">
-                        <?php while($row = $choices->fetch_assoc()) : ?>
-                        <li><input type="radio" name="choice" value="<?= $row['id']; ?>"><?= $row['text']; ?></li>
-                        <?php endwhile; ?>
+                        <?php foreach($choices as $choice) : ?> 
+                        <li><input type="radio" name="choice" value="<?= $choice['id']; ?>"><?= $choice['text']; ?></li>
+                        <?php endforeach//endwhile; ?>
                     </ul>
                     <input type="submit" value="submit">
                     <input type="hidden" name="number" value="<?php echo $number; ?>">
