@@ -1,3 +1,31 @@
+<?php include('database.php'); ?>
+<?php session_start(); ?>
+<?php 
+//all of queries. should actually go into a model?
+
+//getting the question number
+$number = (int) $_GET['n'];
+
+// get the question
+$query = "SELECT * FROM `questions` WHERE question_number = $number";
+//get result
+$result = $mysqli->query($query) or die($mysqli->error.__LINE__);
+$question = $result->fetch_assoc();
+//to check if variable returns something: var_dump($question);
+
+// get question choices
+$query = "SELECT * FROM `choices` WHERE question_number = $number";
+//get result
+$choices = $mysqli->query($query) or die($mysqli->error.__LINE__);
+
+    //get total
+    $query = "SELECT * FROM `questions`";
+    // get the count
+    $results = $mysqli->query($query) or die($mysqli->error.__LINE__);
+    $total = $results->num_rows;
+
+?>
+
 <!DOCTYPE html>	
     <head>
         <meta charset="utf-8">
@@ -21,18 +49,17 @@
         </header>
         <main>
             <div class="container">
-                <div class="current">Question 1 of 5</div>
-                <p class="question">This is the first question</p>
-                <form action="process.php" methiod="POST">
+                <div class="current">Question <?= $question['question_number']; ?> of <?= $total; ?></div>
+                <p class="question"><?php echo $question['text']; ?></p>
+                <form action="process.php" method="POST">
                     <ul class="choices">
-                        <li><input type="radio" name="choice" value="1">This is the 1 answer</li>
-                        <li><input type="radio" name="choice" value="1">This is the 2 answer</li>
-                        <li><input type="radio" name="choice" value="1">This is the 3 answer</li>
-                        <li><input type="radio" name="choice" value="1">This is the 4 answer</li>
+                        <?php while($row = $choices->fetch_assoc()) : ?>
+                        <li><input type="radio" name="choice" value="<?= $row['id']; ?>"><?= $row['text']; ?></li>
+                        <?php endwhile; ?>
                     </ul>
                     <input type="submit" value="submit">
+                    <input type="hidden" name="number" value="<?php echo $number; ?>">
                 </form>
-
             </div>
         </main>
         <footer>

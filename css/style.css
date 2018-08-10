@@ -2,6 +2,7 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 15px;
     line-height: 1.6em;
+    overflow: hidden;
 }
 
 li{
@@ -10,6 +11,25 @@ li{
 
 a {
     text-decoration: none;
+}
+
+label{
+    display: inline-block; /* allows to allign the input boxes */
+    width: 180px;
+}
+/* styling certain types of inputs  */
+input[type="text"]{
+    width: 97%;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px #ccc solid;
+}
+
+input[type="number"]{
+    width: 50px;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px #ccc solid;
 }
 
 .container{
@@ -40,9 +60,20 @@ a.start{
     padding: 6px 13px;
 }
 
+.right {
+    float: right;
+}
+
 .current{
     border: 1px #ccc dotted;
     background: #f4f4f4;
     margin-top: 15px;
     padding: 10px;
+}
+
+/*media querries for screen sizes*/
+@media only screen and (max-width:960px){
+    .container{
+        width:80%;
+    }
 }

@@ -1,12 +1,5 @@
-<?php include('database.php'); ?>
-<?php 
-//total number of questions
-$query = "SELECT * FROM `questions`";
-//get results
-$results = $mysqli->query($query) or die($mysqli->error.__LINE__);
-//get total
-$total = $results->num_rows;
-?>
+<?php session_start(); ?>
+<?php session_destroy(); ?>
 
 <!DOCTYPE html>	
     <head>
@@ -27,19 +20,14 @@ $total = $results->num_rows;
         <header>
             <div class="container">
                 <h1>Quizz</h1>
-                <a href="add.php" class="start right">Add question</a>
             </div>
         </header>
         <main>
             <div class="container">
-            <h2>Test your skills</h2>
-            <p>This is a multiple choice quizz</p>
-                <ul>
-                    <li><strong>Number of questions </strong><?=$total ;?></li>
-                    <li><strong>Type </strong>Multiple choice</li>
-                    <li><strong>Estimated time </strong><?=$total*0.5 ;?> minutes</li>
-                </ul>
-                <a href="questions.php?n=1" class="start">Start quizz</a>
+               <h2>You are done</h2>
+               <p>Congrats you have compleated the test</p>
+               <p>Final score: <?= $_SESSION['score']; ?></p>
+               <a href="questions.php?n=1" class="start">Take again</a>
             </div>
         </main>
         <footer>
