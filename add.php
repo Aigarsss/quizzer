@@ -1,6 +1,7 @@
 <?php include 'database.php'; ?>
 
 <?php
+/*
 if(isset($_POST['submit'])){
    $question_number=$_POST['question_number'];
    $question_text=$_POST['question_text'];
@@ -50,8 +51,54 @@ $results = $mysqli->query($query) or die($mysqli->error.__LINE__);
 //get total
 $total = $results->num_rows;
 $next = $total+1;
+*/
 
+########################### PDO ###########################
 
+    if(isset($_POST['submit'])){
+        $question_number=$_POST['question_number'];
+        $question_text=$_POST['question_text'];
+        $correct_choice=$_POST['correct_choice'];;
+        //choices array
+        $choices = array();
+        $choices[1] = $_POST['choice1'];
+        $choices[2] = $_POST['choice2'];
+        $choices[3] = $_POST['choice3'];
+        $choices[4] = $_POST['choice4'];
+        $choices[5] = $_POST['choice5'];
+     
+     // question query
+     $stm = $pdo->prepare("INSERT INTO questions (question_number, text) VALUES(:question_number, :question_text)");
+     $stm->execute(['question_number' => $question_number, 'question_text' => $question_text]);
+
+     if($stm){
+         foreach($choices as $choice => $value) {
+             if($value != ''){
+                 if($correct_choice == $choice){
+                     $is_correct = 1;
+                     } else {
+                         $is_correct = 0;
+                     }
+                     //choice query
+                     $query = $pdo->prepare("INSERT INTO choices (question_number,is_correct,text) VALUES(:question_number,:is_correct,:value)");
+                     $query->execute(['question_number' => $question_number, 'is_correct'=> $is_correct, 'value' => $value]);
+                     //validate insert
+                     if($query){
+                             continue;
+                         } else{
+                             echo 'Something went wrong';
+                         }
+                 }
+             }
+             $msg = 'Question has been added';
+         }
+     
+     }
+
+     // getting the total
+    $total = $pdo->query("SELECT count(*) FROM questions")->fetchColumn();
+    //getting next question number for auto population
+    $next = $total+1;
 ?>
 
 <!DOCTYPE html>	
