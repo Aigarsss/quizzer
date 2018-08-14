@@ -32,7 +32,7 @@ $total = $pdo->query("SELECT count(*) FROM questions")->fetchColumn();
         <header>
             <div class="container">
                 <h1>Quizz</h1>
-                <a href="add.php" class="start right">Add question [under construction]</a>
+                <a href="add.php" class="start right">Add question</a>
             </div>
         </header>
         <main>
@@ -49,6 +49,7 @@ $total = $pdo->query("SELECT count(*) FROM questions")->fetchColumn();
         </main>
         <footer>
             Copyright &copy; 2018
+            <a href="pdo_tests.php" class="start right">PDO test</a>
         </footer>
 
     <script src="js/vendor/jquery.js"></script>
